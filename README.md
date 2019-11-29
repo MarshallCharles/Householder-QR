@@ -6,6 +6,5 @@
 ### Contents
 
 - [Project](/project). Folder containing work for.... No idea what subject yet.
-- [Slides](/course_slides).
 
 All contents of this repository are either my own work, or documents made publicly available by professor Christophe Picard.
