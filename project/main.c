@@ -4,23 +4,19 @@
 #include "util.h"
 #include <sys/random.h>
 
-#define M_SIZE (3)
-#define N_SIZE (4)
-
-void transpose(int A[][N_SIZE], int B[][M_SIZE])
-{
-    int i, j;
-    for (i = 0; i < N_SIZE; i++)
-        for (j = 0; j < M_SIZE; j++)
-            B[i][j] = A[j][i];
-
-}
+#define M (10)
+#define N (12)
+#define BLOCK (64)
+#define MAX_NUM (9)
 
 int main(int argc, char *argv[]){
-  int A[M_SIZE][N_SIZE]
-  int B[N_SIZE][M_SIZE], i, j;
-  fillMatrix(A,M_SIZE,N_SIZE,10);
-  printMatrix(A,M_SIZE,N_SIZE);
-  transpose(A,B);
-  printMatrix(B,M_SIZE,N_SIZE);
-  }
+  printf("M = %d\nN = %d\n",M, N);
+  int A[M][N] = {{0}};
+  int A_T[N][M] = {{0}};
+
+  fillMatrix(M,N,A,MAX_NUM);
+  printMatrix(M,N,A);
+  printf("\n Now transposed \n");
+  transposeMatrix(M,N,A,A_T);
+  printMatrix(N,M,A_T);
+}
