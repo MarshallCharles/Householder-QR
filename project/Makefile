@@ -1,13 +1,13 @@
+CC=gcc 
+CFLAGS=-Wall
+
 .PHONY: default
-default: main util
+default: main
 
-ex1: ex1.c
-	mpicc -lm -o main main.c
-
-ex2: ex2.c
-	mpicc -lm -o util util.c
+main: main.c 
 
 .PHONY: clean
 clean:
-	-rm util
-	-rm main
+	rm -f main
+run: main
+	./main
