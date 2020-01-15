@@ -1,10 +1,7 @@
-# High Performance Computing for Mathematical Models
+# High Performance Linear Algebra
 
-### A MOSIG / MSIAM M2 course
+## Singular Value Decomposition using Householder QR Algorithm
 
 
-### Contents
-
-- [Project](/project). Folder containing work for my project on Singular Value Decomposition.
-
+This repo is for High Performance Computing for Mathematical Models: a MOSIG / MSIAM M2 course
 All contents of this repository are either my own work, or documents made publicly available by professor Christophe Picard.
