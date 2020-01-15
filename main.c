@@ -1,7 +1,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "util.h"
+#include "utils.h"
 #include <sys/random.h>
 
 #define M (2)
