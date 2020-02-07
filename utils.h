@@ -28,8 +28,8 @@ double* vdiv(double x[], double d, double y[], int n);
 
 double* mcol(mat m, double *v, int c);
 
+void vector_show(double v[], int l);
 void matrix_show(mat m);
-
 void printMatrix(int m, int n, int mat[m][n]);
 void fillMatrix(int m, int n, int mat[m][n], int maximum);
 void transposeMatrix(int m, int n, int mat1[m][n], int mat2[n][m]);

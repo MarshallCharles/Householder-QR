@@ -58,8 +58,13 @@ mat matrix_mul(mat x, mat y)
 mat matrix_minor(mat x, int d)
 {
 	mat m = matrix_new(x->m, x->n);
+	/* makes an x->m by x->n matrix called m,
+	 * iterates up to d and gives the dth diagonal
+	 * value 1 (when d=0 does nothing) */
 	for (int i = 0; i < d; i++)
 		m->v[i][i] = 1;
+	/* Then iterates from d to x->m and x->n
+	 and puts the value of the input x into m */
 	for (int i = d; i < x->m; i++)
 		for (int j = d; j < x->n; j++)
 			m->v[i][j] = x->v[i][j];
@@ -121,6 +126,12 @@ void matrix_show(mat m)
 	printf("\n");
 }
 
+void vector_show(double v[], int l)
+{
+	for(int i = 0; i< l; i++){
+		printf("%f\n",v[i]);
+	}
+}
 
 void printMatrix(int m, int n, int mat[m][n]) {
   for (int i = 0; i < m; i++) {
