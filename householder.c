@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-
+//NEWEST 7-2-20
 void householder(mat m, mat *R, mat *Q)
 {
 	/* We have input matrix x (defined below),
