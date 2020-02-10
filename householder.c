@@ -29,7 +29,7 @@ void householder(mat m, mat *R, mat *Q)
         for (int k = 0; k < min; k++) {
             //Not sure on these vars yet
             double e[m->m], x[m->m], a;
-            printf("==========ITERATION %d==========\n",k);
+            //printf("==========ITERATION %d==========\n",k);
 
             /* Matrix minor will make the first k diagonals 1, and
         Then copy the remaining (m-k)(n-k) values of z to z1
