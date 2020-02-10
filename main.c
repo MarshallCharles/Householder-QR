@@ -272,6 +272,7 @@ int main()
 	{ -1, 1, 0},
 	{ 2, 0, 3},
     };
+
     mat A = matrix_copy(3, x, 5);
     mat res;
     svd(A, &res);
