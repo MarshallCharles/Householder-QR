@@ -276,21 +276,28 @@ void svd(mat A, mat *S)
 
 int main()
 {
+  srand ( (unsigned)time ( NULL ) );
+  // double v[1000000];
+  // generate_vector(v,1000000);
+  // double a;
+  // a = vnorm(v,1000000);
+  // printf("NORM IS %f\n",a);
+  //
+  // vdiv(v,a, v,1000000);
+
+  // mat Q, R;
+  // mat A = generate_matrix(10,10);
+  // householder(A,&R,&Q);
 
     // mat A = matrix_copy(3, x, 5);
     // mat res;
     // svd(A, &res);
-    double c[10] = {6,3,4,5,9,3,6,4,6,4};
-    int sum = 0;
-    puts("Vector c"); vector_show(c, 10);
 
     // printf("AMOUNT OF THREADS IS %d", MAX_THREADS);
-    srand ( (unsigned)time ( NULL ) );
-    mat matrix = generate_matrix(5,5);
-    double v[15];
-    generate_vector(v,15);
-    vector_show(v, 15);
-    // mat res;
-    // svd(matrix, &res);
+    mat matrix = generate_matrix(120,100);
+
+
+    mat res;
+    svd(matrix, &res);
 
 }

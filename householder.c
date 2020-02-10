@@ -48,7 +48,7 @@ void householder(mat m, mat *R, mat *Q)
             //puts("Vector X"); vector_show(x, m->m);
             //Get vector norm of x (of dimension m->m)
             a = vnorm(x, m->m);
-          
+
             /* If the kth diagonal of the input matrix m
             is positive, then flip sign of a */
             if(m->m != 2 || m->n != 2){
