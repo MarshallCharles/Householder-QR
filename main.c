@@ -121,15 +121,15 @@ mat mult_mat_t_mat(mat A)
 
 mat tril(mat R)
 {
-    mat A = matrix_new(R->m, R->n);
+    mat U = matrix_new(R->m, R->n);
     for(int i = 0; i < R->m; i++)
     {
-        for(int j = 0; j <= i+1; j++)
+        for(int j = 0; j <= i+1 && j<R->n; j++)
         {
-            A->v[i][j] = R->v[i][j];
+            U->v[i][j] = R->v[i][j];
         }
     }
-    return A;
+    return U;
 }
 
 
@@ -204,7 +204,6 @@ void svd(mat A, mat *S)
     mat sub_A;
     while(k > 1)
     {
-        printf("################################################################## %d\n",k);
         sub_A = matrix_new(k,k);
         for(int i = 0; i < k; i++)
         {
@@ -247,19 +246,13 @@ void svd(mat A, mat *S)
             householder(X, &R, &Q);
 
             mat A_tmp = matrix_mul(sub_A, Q);
-
-            matrix_delete(Q);
-            matrix_delete(R);
-
+            
             mat R1, Q1;
             householder(A_tmp, &R1, &Q1);
 
-            matrix_delete(A_tmp);
+            
 
             mat tmp = tril(R1);
-
-            matrix_delete(Q1);
-            matrix_delete(R1);
 
             for(int i = 0; i < k; i++)
             {
@@ -269,25 +262,26 @@ void svd(mat A, mat *S)
                 }
             }
             matrix_delete(tmp);
+            matrix_delete(Q);
+            matrix_delete(R);
+            matrix_delete(Q1);
+            matrix_delete(R1);
+            matrix_delete(A_tmp);
         }
     }
-    matrix_show(A);
 }
 
 int main()
 {
-
+    srand ( (unsigned)time ( NULL ) );
     // mat A = matrix_copy(3, x, 5);
     // mat res;
     // svd(A, &res);
 
     // printf("AMOUNT OF THREADS IS %d", MAX_THREADS);
-    srand ( (unsigned)time ( NULL ) );
-    mat matrix = generate_matrix(5,5);
-    double v[15];
-    generate_vector(v,15);
-    vector_show(v, 15);
-    // mat res;
-    // svd(matrix, &res);
+    
+    mat matrix = generate_matrix(100,100);
+    mat res;
+    svd(matrix, &res);
 
 }

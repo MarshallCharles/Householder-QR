@@ -29,14 +29,14 @@ void householder(mat m, mat *R, mat *Q)
         for (int k = 0; k < min; k++) {
             //Not sure on these vars yet
             double e[m->m], x[m->m], a;
-            printf("==========ITERATION %d==========\n",k);
+            // printf("==========ITERATION %d==========\n",k);
 
             /* Matrix minor will make the first k diagonals 1, and
         Then copy the remaining (m-k)(n-k) values of z to z1
             (all else is 0) */
-            puts("Z"); matrix_show(z);
+            // puts("Z"); matrix_show(z);
             z1 = matrix_minor(z, k);
-            puts("Z1"); matrix_show(z1);
+            // puts("Z1"); matrix_show(z1);
 
             //Is this useless?? cause we just redefine z right after
             if (z != m) matrix_delete(z);
@@ -45,7 +45,7 @@ void householder(mat m, mat *R, mat *Q)
             //Take kth column of z, put in vector x
             mcol(z, x, k);
             //Print X = kth column of Z for iteration k
-            puts("Vector X"); vector_show(x, m->m);
+            // puts("Vector X"); vector_show(x, m->m);
             //Get vector norm of x (of dimension m->m)
             a = vnorm(x, m->m);
 
@@ -69,7 +69,7 @@ void householder(mat m, mat *R, mat *Q)
             //q[k] has the dimensions of our resulting Q
             //And is has the property of Z1 where kth diagonals
             //have 1, and rows 0 to k have all 0
-            puts("small q"); matrix_show(q[k]);
+            // puts("small q"); matrix_show(q[k]);
 
             //below are prints to verify the standing of Z and Z1
             // printf("\n\nNOWWWWW\n\n");
@@ -81,9 +81,9 @@ void householder(mat m, mat *R, mat *Q)
             z1 = matrix_mul(q[k], z);
             if (z != m) matrix_delete(z);
             z = z1;
-            puts("FINAL q[k]*Z (carries over to next iteration)"); matrix_show(z);
+            // puts("FINAL q[k]*Z (carries over to next iteration)"); matrix_show(z);
         }
-        printf("\n~~~Done With for Loop~~~\n\n");
+        // printf("\n~~~Done With for Loop~~~\n\n");
 
         matrix_delete(z);
 
