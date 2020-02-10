@@ -4,7 +4,10 @@
 #include <stdlib.h>
 #include <math.h>
 #include <float.h>
+#include <omp.h>
+#include <x86intrin.h>
 
+#define MAX_THREADS omp_get_max_threads()
 
 /* wierd matlab function used in the algorithm*/
 mat vec_vec_mult_matlab(double v1[], double v2[], int m1, int m2)
@@ -273,7 +276,11 @@ int main()
 	{ 2, 0, 3},
     };
 
-    mat A = matrix_copy(3, x, 5);
-    mat res;
-    svd(A, &res);
+    // mat A = matrix_copy(3, x, 5);
+    // mat res;
+    // svd(A, &res);
+
+    printf("AMOUNT OF THREADS IS %d", MAX_THREADS);
+
+
 }

@@ -1,8 +1,8 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <omp.h>
+#include <x86intrin.h>
 #include "utils.h"
 
 mat matrix_new(int m, int n)
