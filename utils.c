@@ -96,14 +96,19 @@ mat vmul(double v[], int n)
 double vnorm(double x[], int n)
 {
 	double sum = 0;
-	for (int i = 0; i < n; i++) sum += x[i] * x[i];
+	//#pragma omp parallel for default(none) shared(sum, x, n)
+	for (int i = 0; i < n; i++){
+		sum += x[i] * x[i];
+	 }
 	return sqrt(sum);
 }
 
 /* y = x / d */
 double* vdiv(double x[], double d, double y[], int n)
 {
-	for (int i = 0; i < n; i++) y[i] = x[i] / d;
+	for (int i = 0; i < n; i++){
+		y[i] = x[i] / d;
+	 }
 	return y;
 }
 

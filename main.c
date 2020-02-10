@@ -126,7 +126,7 @@ void svd(mat A, mat *S)
 {
     int m = A->m;
     int n = A->n;
-    int min = ( m < n)? m : n;
+    int min = (m < n)? m : n;
 
     for(int k = 0; k < min; k++)
     {
@@ -234,9 +234,9 @@ void svd(mat A, mat *S)
 
             householder(X, &R, &Q);
 
-            matrix_show(X);
-            matrix_show(R);
-            matrix_show(Q);
+            //matrix_show(X);
+            //matrix_show(R);
+            //matrix_show(Q);
 
             mat A_tmp = matrix_mul(sub_A, Q);
 
@@ -275,12 +275,15 @@ int main()
 	{ -1, 1, 0},
 	{ 2, 0, 3},
     };
-
+    printf("AMOUNT OF THREADS IS %d\nma", MAX_THREADS);
     // mat A = matrix_copy(3, x, 5);
     // mat res;
     // svd(A, &res);
+    double c[10] = {6,3,4,5,9,3,6,4,6,4};
+    int sum = 0;
+    puts("Vector c"); vector_show(c, 10);
 
-    printf("AMOUNT OF THREADS IS %d", MAX_THREADS);
-
+    sum = vnorm(c, 10);
+    printf("Norm is %d", sum);
 
 }
