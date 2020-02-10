@@ -137,7 +137,7 @@ void svd(mat A, mat *S)
 {
     int m = A->m;
     int n = A->n;
-    int min = ( m < n)? m : n;
+    int min = (m < n)? m : n;
 
     for(int k = 0; k < min; k++)
     {
@@ -170,7 +170,7 @@ void svd(mat A, mat *S)
                 A->v[i][k] = 0.0;
             }
         }
-        
+
 
         double u1[n];
         mrow(A, u1, k);
@@ -220,7 +220,7 @@ void svd(mat A, mat *S)
         else
         {
             mat T = mult_mat_t_mat(sub_A);
-            
+
             double r = (T->v[k-1][k-1] - T->v[k-1][k-1])/(2*T->v[k-1][k-2]);
             double s = sqrt(r*r + T->v[k-2][k-1]/T->v[k-1][k-2]);
 
@@ -274,13 +274,24 @@ void svd(mat A, mat *S)
 int main()
 {
     srand ( (unsigned)time ( NULL ) );
+  // double v[1000000];
+  // generate_vector(v,1000000);
+  // double a;
+  // a = vnorm(v,1000000);
+  // printf("NORM IS %f\n",a);
+  //
+  // vdiv(v,a, v,1000000);
+
+  // mat Q, R;
+  // mat A = generate_matrix(10,10);
+  // householder(A,&R,&Q);
+
     // mat A = matrix_copy(3, x, 5);
     // mat res;
     // svd(A, &res);
 
     // printf("AMOUNT OF THREADS IS %d", MAX_THREADS);
-    
-    mat matrix = generate_matrix(100,100);
+    mat matrix = generate_matrix(120,100);
     mat res;
     svd(matrix, &res);
 

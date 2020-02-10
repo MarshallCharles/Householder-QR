@@ -29,14 +29,14 @@ void householder(mat m, mat *R, mat *Q)
         for (int k = 0; k < min; k++) {
             //Not sure on these vars yet
             double e[m->m], x[m->m], a;
-            // printf("==========ITERATION %d==========\n",k);
+            //printf("==========ITERATION %d==========\n",k);
 
             /* Matrix minor will make the first k diagonals 1, and
         Then copy the remaining (m-k)(n-k) values of z to z1
             (all else is 0) */
-            // puts("Z"); matrix_show(z);
+            //puts("Z"); matrix_show(z);
             z1 = matrix_minor(z, k);
-            // puts("Z1"); matrix_show(z1);
+            //puts("Z1"); matrix_show(z1);
 
             //Is this useless?? cause we just redefine z right after
             if (z != m) matrix_delete(z);
@@ -45,7 +45,7 @@ void householder(mat m, mat *R, mat *Q)
             //Take kth column of z, put in vector x
             mcol(z, x, k);
             //Print X = kth column of Z for iteration k
-            // puts("Vector X"); vector_show(x, m->m);
+            //puts("Vector X"); vector_show(x, m->m);
             //Get vector norm of x (of dimension m->m)
             a = vnorm(x, m->m);
 
@@ -69,10 +69,10 @@ void householder(mat m, mat *R, mat *Q)
             //q[k] has the dimensions of our resulting Q
             //And is has the property of Z1 where kth diagonals
             //have 1, and rows 0 to k have all 0
-            // puts("small q"); matrix_show(q[k]);
+            //puts("small q"); matrix_show(q[k]);
 
             //below are prints to verify the standing of Z and Z1
-            // printf("\n\nNOWWWWW\n\n");
+            // //printf("\n\nNOWWWWW\n\n");
             // puts("THIS Z"); matrix_show(z);
             // puts("Z1"); matrix_show(z1);
 
@@ -81,14 +81,15 @@ void householder(mat m, mat *R, mat *Q)
             z1 = matrix_mul(q[k], z);
             if (z != m) matrix_delete(z);
             z = z1;
-            // puts("FINAL q[k]*Z (carries over to next iteration)"); matrix_show(z);
+            //puts("FINAL q[k]*Z (carries over to next iteration)"); matrix_show(z);
         }
-        // printf("\n~~~Done With for Loop~~~\n\n");
+        //printf("\n~~~Done With for Loop~~~\n\n");
 
         matrix_delete(z);
 
         *Q = q[0];
         *R = matrix_mul(q[0], m);
+        //THIS PART CANT BE PARALELLIZED CAUSE WE NEED PREV COMPUTATION
         for (int i = 1; i < min; i++) {
             //compounding the q[i]'s <=> q[1]*q[2]*...q[min(m,n)]
             z1 = matrix_mul(q[i], *Q);
@@ -109,31 +110,4 @@ void householder(mat m, mat *R, mat *Q)
         matrix_transpose(*Q);
     }
 }
-
-// double in[][3] = {
-// 	{ 12},
-// };
-
-// int main()
-// {
-// 	/* Define  matrices Q, R, and put the above input matrix
-// 	 * into 'mat x'	*/
-// 	mat R, Q;
-// 	mat x = matrix_copy(1, in, 1);
-
-// 	/* Householder does all the work now. Give input matrix,
-// 	 * R, and Q empty mats 	*/
-// 	householder(x, &R, &Q);
-// 	puts("Q"); matrix_show(Q);
-// 	puts("R"); matrix_show(R);
-
-// 	// to show their product is the input matrix
-// 	mat m = matrix_mul(Q, R);
-// 	puts("Q * R"); matrix_show(m);
-
-// 	matrix_delete(x);
-// 	matrix_delete(R);
-// 	matrix_delete(Q);
-// 	matrix_delete(m);
-// 	return 0;
-// }
+	//#pragma omp parallel for default(none) shared(sum, x, n)

@@ -6,6 +6,8 @@
 #include "utils.h"
 #include <time.h>
 
+#define MAX_VALUE 20.0
+
 mat matrix_new(int m, int n)
 {
 	mat x = malloc(sizeof(mat_t));
@@ -84,6 +86,7 @@ double *vmadd(double a[], double b[], double s, double c[], int n)
 mat vmul(double v[], int n)
 {
 	mat x = matrix_new(n, n);
+	#pragma omp parallel for default(none) shared(x,v) private(i,j)
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++)
 			x->v[i][j] = -2 *  v[i] * v[j];
@@ -97,14 +100,20 @@ mat vmul(double v[], int n)
 double vnorm(double x[], int n)
 {
 	double sum = 0;
-	for (int i = 0; i < n; i++) sum += x[i] * x[i];
+	#pragma omp parallel for reduction(+:sum)
+	for (int i = 0; i < n; i++){
+		sum += x[i] * x[i];
+	 }
 	return sqrt(sum);
 }
 
 /* y = x / d */
 double* vdiv(double x[], double d, double y[], int n)
 {
-	for (int i = 0; i < n; i++) y[i] = x[i] / d;
+	#pragma omp parallel for default(none) shared(y) private(i)
+	for (int i = 0; i < n; i++){
+		y[i] = x[i] / d;
+	 }
 	return y;
 }
 
@@ -180,10 +189,9 @@ mat generate_matrix(int m, int n)
 	{
 		for (int j = 0; j < n; j++)
 		{
-			new->v[i][j] = drand(1.0, 20.0);
+			new->v[i][j] = drand(1.0, MAX_VALUE);
 		}
 	}
-	matrix_show(new);
 	return new;
 }
 
@@ -191,7 +199,7 @@ double* generate_vector(double v[], int n)
 {
 	for(int i = 0; i < n; i++)
 	{
-		v[i] = drand(1.0, 20.0);
+		v[i] = drand(1.0, MAX_VALUE);
 	}
 	return v;
 }
