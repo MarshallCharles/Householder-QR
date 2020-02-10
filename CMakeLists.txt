@@ -9,4 +9,5 @@ add_executable(main ${source_files})
 find_package(OpenMP REQUIRED) # Find the package
 
 #target_link_libraries(${PROJECT_NAME} ${OpenMP_CXX_LIBRARIES})
+# put -lm for ubuntu
 target_link_libraries(main PRIVATE OpenMP::OpenMP_CXX -lm)

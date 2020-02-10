@@ -35,4 +35,7 @@ void fillMatrix(int m, int n, int mat[m][n], int maximum);
 void transposeMatrix(int m, int n, int mat1[m][n], int mat2[n][m]);
 void mult_AtA(int m, int n, int mat1[n][m], int mat2[m][n], int mat3[n][n]);
 void householder(mat m, mat *R, mat *Q);
+double drand ( double low, double high );
+mat generate_matrix(int m, int n);
+double* generate_vector(double v[], int n);
 #endif

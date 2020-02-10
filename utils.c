@@ -4,6 +4,7 @@
 #include <omp.h>
 #include <x86intrin.h>
 #include "utils.h"
+#include <time.h>
 
 mat matrix_new(int m, int n)
 {
@@ -170,4 +171,32 @@ void mult_AtA(int m, int n, int mat1[n][m], int mat2[m][n], int mat3[n][n]){
       }
     }
   }
+}
+
+double drand ( double low, double high )
+{
+	return ( (double)rand() * ( high - low ) ) / (double)RAND_MAX + low;
+}
+
+mat generate_matrix(int m, int n)
+{
+	mat new = matrix_new(m,n);
+	for(int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			new->v[i][j] = drand(1.0, 20.0);
+		}
+	}
+	matrix_show(new);
+	return new;
+}
+
+double* generate_vector(double v[], int n)
+{
+	for(int i = 0; i < n; i++)
+	{
+		v[i] = drand(1.0, 20.0);
+	}
+	return v;
 }

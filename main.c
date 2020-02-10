@@ -43,6 +43,30 @@ mat mat_minus_mat(mat A, mat B)
 }
 
 
+double* scalar_mat_vect_mult(mat x, double y[], double scalar, int m, double res[])
+{
+    if (x->n == m)
+    {
+        for(int i =0; i<x->m; i++)
+        {
+            double tmp = 0.0;
+            for(int j=0; j<x->n; j++)
+            {
+                tmp += x->v[i][j] * y[j];
+            }
+            res[i] = scalar * tmp;
+        }
+        return res;
+    }
+    else
+    {
+        printf("Dimension error in scalar vector matrix multiplication\n");
+        printf("%d, %d\n", x->m, m);
+        exit(1);
+    }
+}
+
+
 double* scalar_vect_mat_mult(mat x, double y[], double scalar, int m, double res[])
 {
     if(x->m == m)
@@ -53,19 +77,6 @@ double* scalar_vect_mat_mult(mat x, double y[], double scalar, int m, double res
             for(int j=0; j<m; j++)
             {
                 tmp += y[j]*x->v[j][i];
-            }
-            res[i] = scalar * tmp;
-        }
-        return res;
-    }
-    else if (x->n == m)
-    {
-        for(int i =0; i<x->m; i++)
-        {
-            double tmp = 0.0;
-            for(int j=0; j<x->n; j++)
-            {
-                tmp += x->v[i][j] * y[j];
             }
             res[i] = scalar * tmp;
         }
@@ -160,6 +171,7 @@ void svd(mat A, mat *S)
             }
         }
 
+
         double u1[n];
         mrow(A, u1, k);
 
@@ -176,9 +188,9 @@ void svd(mat A, mat *S)
             }
             u1[k+1] = u1[k+1] + sigma1;
             double rho = 1/(sigma1*u1[k+1]);
-            double v[A->m];
-            scalar_vect_mat_mult(A,u1,rho,n,v);
-            mat vu = vec_vec_mult_matlab(v, u1, m, n);
+            double v1[A->m];
+            scalar_mat_vect_mult(A,u1,rho,n,v1);
+            mat vu = vec_vec_mult_matlab(v1, u1, m, n);
             mat Ai = mat_minus_mat(A, vu);
             *A = *Ai;
             free(Ai);
@@ -190,9 +202,9 @@ void svd(mat A, mat *S)
     }
     int k = min;
     mat sub_A;
-
-    while(k >1)
+    while(k > 1)
     {
+        printf("################################################################## %d\n",k);
         sub_A = matrix_new(k,k);
         for(int i = 0; i < k; i++)
         {
@@ -201,8 +213,7 @@ void svd(mat A, mat *S)
                 sub_A->v[i][j] = A->v[i][j];
             }
         }
-
-        if(fabs(sub_A->v[k-2][k-1]) <= 2*2.2204e-16*(fabs(sub_A->v[k-2][k-2]) + fabs(sub_A->v[k-1][k-1])))
+        if(fabs(sub_A->v[k-2][k-1]) <= 2*2.2204e-6*(fabs(sub_A->v[k-2][k-2]) + fabs(sub_A->v[k-1][k-1])))
         {
             sub_A->v[k-2][k-1] = 0.0;
             k -=1;
@@ -210,7 +221,8 @@ void svd(mat A, mat *S)
         else
         {
             mat T = mult_mat_t_mat(sub_A);
-            double r = (T->v[k-1][k-1] - T->v[k-2][k-2])/(2*T->v[k-1][k-2]);
+
+            double r = (T->v[k-1][k-1] - T->v[k-1][k-1])/(2*T->v[k-1][k-2]);
             double s = sqrt(r*r + T->v[k-2][k-1]/T->v[k-1][k-2]);
 
             s = (r < 0.0) ? -1*s : s;
@@ -233,10 +245,6 @@ void svd(mat A, mat *S)
             }
 
             householder(X, &R, &Q);
-
-            //matrix_show(X);
-            //matrix_show(R);
-            //matrix_show(Q);
 
             mat A_tmp = matrix_mul(sub_A, Q);
 
@@ -268,14 +276,7 @@ void svd(mat A, mat *S)
 
 int main()
 {
-    double x[][3] = {
-	{ 12, -51,   4},
-	{  6, 167, -68},
-	{ -4,  24, -41},
-	{ -1, 1, 0},
-	{ 2, 0, 3},
-    };
-    printf("AMOUNT OF THREADS IS %d\nma", MAX_THREADS);
+
     // mat A = matrix_copy(3, x, 5);
     // mat res;
     // svd(A, &res);
@@ -283,7 +284,13 @@ int main()
     int sum = 0;
     puts("Vector c"); vector_show(c, 10);
 
-    sum = vnorm(c, 10);
-    printf("Norm is %d", sum);
+    // printf("AMOUNT OF THREADS IS %d", MAX_THREADS);
+    srand ( (unsigned)time ( NULL ) );
+    mat matrix = generate_matrix(5,5);
+    double v[15];
+    generate_vector(v,15);
+    vector_show(v, 15);
+    // mat res;
+    // svd(matrix, &res);
 
 }
