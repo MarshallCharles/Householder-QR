@@ -34,5 +34,5 @@ void printMatrix(int m, int n, int mat[m][n]);
 void fillMatrix(int m, int n, int mat[m][n], int maximum);
 void transposeMatrix(int m, int n, int mat1[m][n], int mat2[n][m]);
 void mult_AtA(int m, int n, int mat1[n][m], int mat2[m][n], int mat3[n][n]);
-
+void householder(mat m, mat *R, mat *Q);
 #endif
