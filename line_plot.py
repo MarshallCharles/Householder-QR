@@ -49,7 +49,7 @@ def main():
     if len(list(df))<3:
         line(df,'Size:N','Time (s):Q').serve()
     else:
-        line(df,'Size:N','Time (s):Q', 'label').serve()
+        lineColor(df,'Size:N','Time (s):Q', 'label').serve()
 
 
 if __name__=='__main__':
