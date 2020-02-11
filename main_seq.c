@@ -291,8 +291,12 @@ int main()
     // svd(A, &res);
 
     // printf("AMOUNT OF THREADS IS %d", MAX_THREADS);
-    mat matrix = generate_matrix(120,100);
+    mat matrix = generate_matrix(130,130);
     mat res;
+    double start = omp_get_wtime();
     svd(matrix, &res);
+    double end = omp_get_wtime();
+    printf("Time elapsed : %f\n", end-start);
+
 
 }

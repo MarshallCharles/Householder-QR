@@ -86,7 +86,7 @@ double *vmadd(double a[], double b[], double s, double c[], int n)
 mat vmul(double v[], int n)
 {
 	mat x = matrix_new(n, n);
-	#pragma omp parallel for default(none) shared(x,v) private(i,j)
+	// #pragma omp parallel for default(none) shared(x,v) private(i,j)
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++)
 			x->v[i][j] = -2 *  v[i] * v[j];
@@ -100,7 +100,7 @@ mat vmul(double v[], int n)
 double vnorm(double x[], int n)
 {
 	double sum = 0;
-	#pragma omp parallel for reduction(+:sum)
+	// #pragma omp parallel for reduction(+:sum)
 	for (int i = 0; i < n; i++){
 		sum += x[i] * x[i];
 	 }
@@ -110,7 +110,7 @@ double vnorm(double x[], int n)
 /* y = x / d */
 double* vdiv(double x[], double d, double y[], int n)
 {
-	#pragma omp parallel for default(none) shared(y) private(i)
+	// #pragma omp parallel for default(none) shared(y) private(i)
 	for (int i = 0; i < n; i++){
 		y[i] = x[i] / d;
 	 }
