@@ -31,9 +31,9 @@ void matrix_transpose(mat m)
 {
 	int i,j;
 	double t;
-	#pragma omp parallel shared(m) private(i,j,t)
-  {
-	#pragma omp for schedule(static)
+	// #pragma omp parallel shared(m) private(i,j,t)
+//   {
+	// #pragma omp for schedule(static)
 	for (i = 0; i < m->m; i++) {
 		for (j = 0; j < i; j++) {
 			t = m->v[i][j];
@@ -41,7 +41,7 @@ void matrix_transpose(mat m)
 			m->v[j][i] = t;
 		}
 	}
-	}
+	// }
 }
 
 mat matrix_copy(int n, double a[][n], int m)
@@ -58,14 +58,14 @@ mat matrix_mul(mat x, mat y)
 	if (x->n != y->m) return 0;
 	int i,j,k;
 	mat r = matrix_new(x->m, y->n);
-	#pragma omp parallel shared(x, y, r) private(i,j,k)
-  {
-	#pragma omp for schedule(static)
+	// #pragma omp parallel shared(x, y, r) private(i,j,k)
+//   {
+	// #pragma omp for schedule(static)
 	for (i = 0; i < x->m; i++)
 		for (j = 0; j < y->n; j++)
 			for (k = 0; k < x->n; k++)
 				r->v[i][j] += x->v[i][k] * y->v[k][j];
-	}
+	// }
 	return r;
 }
 
@@ -79,7 +79,7 @@ mat matrix_minor(mat x, int d)
 		m->v[i][i] = 1;
 	/* Then iterates from d to x->m and x->n
 	 and puts the value of the input x into m */
-	#pragma omp parallel for default(none) shared(x, m, d)
+	// #pragma omp parallel for default(none) shared(x, m, d)
 	for (int i = d; i < x->m; i++)
 		for (int j = d; j < x->n; j++)
 			m->v[i][j] = x->v[i][j];

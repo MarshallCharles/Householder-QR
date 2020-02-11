@@ -104,9 +104,9 @@ mat mult_mat_t_mat(mat A)
     int n = A->n;
     int i, j, k;
     mat T = matrix_new(m, n);
-    #pragma omp parallel shared(A, T) private(i,j,k)
-    {
-  	#pragma omp for schedule(static)
+    // #pragma omp parallel shared(A, T) private(i,j,k)
+    // {
+  	// #pragma omp for schedule(static)
     for(i = 0; i < m; i++)
     {
         for(j = 0; j < n; j++)
@@ -117,7 +117,7 @@ mat mult_mat_t_mat(mat A)
             }
         }
     }
-  }
+//   }
   return T;
 
 }
@@ -142,9 +142,13 @@ void svd(mat A, mat *S)
     int m = A->m;
     int n = A->n;
     int min = (m < n)? m : n;
+    
+    // Househoulder reduction to bidiagonal form.
 
     for(int k = 0; k < min; k++)
     {
+        // Introduce zeros below the diagonal in the k-th column.
+        
         double u[m];
         mcol(A, u, k);
 
@@ -175,6 +179,7 @@ void svd(mat A, mat *S)
             }
         }
 
+        // Introduce zeros to the right of the superdiagonal in the k-th row.
         double u1[n];
         mrow(A, u1, k);
 
@@ -203,6 +208,7 @@ void svd(mat A, mat *S)
             }
         }
     }
+    // Bidiagonal SVD QR iteration.
     int k = min;
     mat sub_A;
     while(k > 1)
@@ -215,6 +221,7 @@ void svd(mat A, mat *S)
                 sub_A->v[i][j] = A->v[i][j];
             }
         }
+        // Convergence test.
         if(fabs(sub_A->v[k-2][k-1]) <= 2*2.2204e-6*(fabs(sub_A->v[k-2][k-2]) + fabs(sub_A->v[k-1][k-1])))
         {
             sub_A->v[k-2][k-1] = 0.0;
@@ -222,6 +229,8 @@ void svd(mat A, mat *S)
         }
         else
         {
+            // One step of single shift QR iteration.
+            // Wilkinson shift, eigenvalue of lower 2-by-2 of A'*A.
             mat T = mult_mat_t_mat(sub_A);
 
             double r = (T->v[k-1][k-1] - T->v[k-1][k-1])/(2*T->v[k-1][k-2]);
@@ -295,13 +304,26 @@ int main()
     // svd(A, &res);
 
     // printf("AMOUNT OF THREADS IS %d", MAX_THREADS);
-
-    mat matrix = generate_matrix(150,150);
-    mat res;
-    double start = omp_get_wtime();
-    svd(matrix, &res);
-    double end = omp_get_wtime();
-    printf("Time elapsed : %f\n", end-start);
+    int m[8] = {10,25,50,75,110,120,130};
+    int n[11] = {5,10,25,35,40,50, 55,60,70,80,100};
+    for(int i=0; i<8; i++)
+    {
+        for(int j = 0; j<11; j++)
+        {
+            if(n[j] < m[i])
+            {
+                int mi = m[i];
+                int ni = n[j];
+                mat matrix = generate_matrix(mi,ni);
+                mat res;
+                double start = omp_get_wtime();
+                svd(matrix, &res);
+                double end = omp_get_wtime();
+                printf("Time elapsed : %f | (%d, %d)\n", end-start, mi, ni);
+            }
+        }
+    }
+    
 
 
 }
