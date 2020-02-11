@@ -90,7 +90,6 @@ double* scalar_vect_mat_mult(mat x, double y[], double scalar, int m, double res
     }
 }
 
-
 /* take c-th row of m, put in v */
 double* mrow(mat m, double *v, int c)
 {
@@ -99,23 +98,28 @@ double* mrow(mat m, double *v, int c)
 	return v;
 }
 
-
 mat mult_mat_t_mat(mat A)
 {
     int m = A->m;
     int n = A->n;
+    int i, j, k;
     mat T = matrix_new(m, n);
-    for(int i = 0; i < m; i++)
+    #pragma omp parallel shared(A, T) private(i,j,k)
     {
-        for(int j = 0; j < n; j++)
+  	#pragma omp for schedule(static)
+    for(i = 0; i < m; i++)
+    {
+        for(j = 0; j < n; j++)
         {
-            for (int k = 0; k < n; k++)
+            for (k = 0; k < n; k++)
             {
 				T->v[i][j] += A->v[k][i] * A->v[k][j];
             }
         }
     }
-    return T;
+  }
+  return T;
+
 }
 
 
@@ -170,7 +174,6 @@ void svd(mat A, mat *S)
                 A->v[i][k] = 0.0;
             }
         }
-
 
         double u1[n];
         mrow(A, u1, k);
@@ -246,11 +249,11 @@ void svd(mat A, mat *S)
             householder(X, &R, &Q);
 
             mat A_tmp = matrix_mul(sub_A, Q);
-            
+
             mat R1, Q1;
             householder(A_tmp, &R1, &Q1);
 
-            
+
 
             mat tmp = tril(R1);
 
