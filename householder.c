@@ -17,7 +17,6 @@ void householder(mat m, mat *R, mat *Q)
         tmp2->v[0][0] = 1.0* m->v[0][0];
         *R = tmp2;
     }else{
-
         mat q[m->m];
         mat z = m, z1;
         int ite_n;
