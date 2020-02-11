@@ -25,7 +25,7 @@ def handle_string(s, a):
     x = [x.strip() for x in s.split(',')]
     for i in range(len(x)):
         if i<2:
-            temp.append(int(x[i]))
+            temp.append(float(x[i]))
         else:
             temp.append(x[i])
     a.append(temp)
