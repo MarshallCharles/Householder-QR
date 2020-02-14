@@ -38,4 +38,5 @@ void householder(mat m, mat *R, mat *Q);
 double drand ( double low, double high );
 mat generate_matrix(int m, int n);
 double* generate_vector(double v[], int n);
+mat matrix_mul_seq(mat x, mat y);
 #endif

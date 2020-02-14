@@ -69,6 +69,18 @@ mat matrix_mul(mat x, mat y)
 	return r;
 }
 
+mat matrix_mul_seq(mat x, mat y)
+{
+	if (x->n != y->m) return 0;
+	int i,j,k;
+	mat r = matrix_new(x->m, y->n);
+	for (i = 0; i < x->m; i++)
+		for (j = 0; j < y->n; j++)
+			for (k = 0; k < x->n; k++)
+				r->v[i][j] += x->v[i][k] * y->v[k][j];
+	return r;
+}
+
 mat matrix_minor(mat x, int d)
 {
 	mat m = matrix_new(x->m, x->n);

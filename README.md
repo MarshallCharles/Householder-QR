@@ -1,6 +1,7 @@
-# High Performance Linear Algebra
+# High Performance Singular Value Decomposition
 
-## Singular Value Decomposition using Householder QR Algorithm
+### A parallel algorithm to compute SVD, using a QR algorithm with Householder reflections
+
 
 
 This repo is for High Performance Computing for Mathematical Models: a MOSIG / MSIAM M2 course

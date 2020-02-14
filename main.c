@@ -294,8 +294,25 @@ int main()
     // svd(A, &res);
 
     // printf("AMOUNT OF THREADS IS %d", MAX_THREADS);
-    mat matrix = generate_matrix(120,100);
-    mat res;
-    svd(matrix, &res);
+    mat m1 = generate_matrix(2000,2000);
+    mat m2 = generate_matrix(2000,2000);
+
+    double start = omp_get_wtime();
+    matrix_mul_seq(m1,m2);
+    double end = omp_get_wtime();
+    printf("Sequential: %f\n", end-start);
+
+
+    mat m3 = generate_matrix(2000,2000);
+    mat m4 = generate_matrix(2000,2000);
+
+    double start2 = omp_get_wtime();
+    matrix_mul(m3,m4);
+    double end2 = omp_get_wtime();
+    printf("Parallel: %f\n", end2-start2);
+
+
+    // mat res;
+    // svd(matrix, &res);
 
 }
